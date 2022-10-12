@@ -5,7 +5,7 @@
 }
 
 html, body {
-    height: 100%;
+    min-height: 100vh;
 }
 
 body {
@@ -19,6 +19,7 @@ body {
     display: inline-grid;
     border: 8px solid #ccc;
     font-family: 'Courier New', Courier, monospace;
+    margin: 20px;
 }
 
 .mine-tile {
@@ -26,7 +27,7 @@ body {
     appearance: none;
     font-weight: bold;
     border-radius: 0;
-    border-width: 4px;
+    border-width: 3px;
     border-color: #eee;
     padding: 0;
     display: flex;
@@ -65,7 +66,18 @@ body {
 .mine-tile[value="7"] { color: black; }
 .mine-tile[value="8"] { color: gray; }
 
-.mine-button {
-    margin: 10px;
-    padding: 5px;
+.mine-ui-container button {
+    height: 30px;
+    padding: 0 5px;
+}
+
+.mine-ui-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mine-ui-container input {
+    width: 50px;
+    height: 30px;
 }
