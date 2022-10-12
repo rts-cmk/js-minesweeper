@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.mine-board {
+    display: inline-grid;
+    border: 8px solid #ccc;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.mine-tile {
+    aspect-ratio: 1 / 1;
+    appearance: none;
+    font-weight: bold;
+    border-radius: 0;
+    border-width: 4px;
+    border-color: #eee;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to bottom right, #eee, #ccc);
+    overflow: hidden;
+    width: 25px;
+}
+
+.mine-tile[value]:not([value="🚩"]) {
+    background-image: none;
+    font-size: 14px;
+    background-color: #ccc;
+    border-color: #ccc;
+    border-width: 0;
+    border-style: solid;
+    box-shadow: 0 0 0 1px darkgray;
+}
+
+.mine-tile[value="0"] {
+    color: transparent;
+}
+
+.mine-tile[value="🚩"] {
+    font-size: 10px;
+}
+
+
+.mine-tile[value="1"] { color: blue; }
+.mine-tile[value="2"] { color: green; }
+.mine-tile[value="3"] { color: red; }
+.mine-tile[value="4"] { color: purple; }
+.mine-tile[value="5"] { color: maroon; }
+.mine-tile[value="6"] { color: teal; }
+.mine-tile[value="7"] { color: black; }
+.mine-tile[value="8"] { color: gray; }
+
+.mine-button {
+    margin: 10px;
+    padding: 5px;
+}
