@@ -1,19 +1,24 @@
 import MineTile from "./mine-tile.js";
 
 export default class MineBoard {
+    get #DEFAULT_WIDTH() { return 9 };
+    get #DEFAULT_HEIGHT() { return 9 };
+    get #DEFAULT_MINES() { return 10 };
+
+
     #grid;
     #element;
     #initialMineCount;
 
     get width() { return this.#grid[0].length };
     get height() { return this.#grid.length };
-    get element() { return this.#element }; 
+    get element() { return this.#element };
     get tiles() { return this.#grid.flat() };
-    get minesRemaining() { return this.#grid.flat().filter(tile => tile.value === '*').length };
+    get minesRemaining() { return this.#grid.flat().filter(tile => tile.value === MineTile.MINE).length };
 
-    constructor(width = 9, height = 9, mineCount = 10) {
+    constructor(width = this.#DEFAULT_WIDTH, height = this.#DEFAULT_HEIGHT, mineCount = this.#DEFAULT_MINES) {
 
-        this.#grid = Array(height).fill().map(() => Array(width).fill().map(() => new MineTile()));
+        this.#grid = this.#createGrid(width, height);
         this.#initialMineCount = mineCount;
 
         this.#element = document.createElement('div');
@@ -24,12 +29,16 @@ export default class MineBoard {
 
         this.tiles.forEach(tile => {
             this.#element.appendChild(tile.element)
-            
-            tile.element.addEventListener('click', () => { 
-                if (tile.value === MineTile.EMPTY) this.#revealAdjacentTiles(tile) 
-                else if (tile.value === MineTile.MINE ) this.#revealAll();
+
+            tile.element.addEventListener('click', () => {
+                if (tile.value === MineTile.EMPTY) this.#revealAdjacentTiles(tile)
+                else if (tile.value === MineTile.MINE) this.#revealAll();
             });
         });
+    }
+
+    #createGrid(width, height) {
+        return Array(height).fill().map(() => Array(width).fill().map(() => new MineTile()));
     }
 
     #placeRandomMines(mineCount) {
@@ -45,7 +54,7 @@ export default class MineBoard {
     }
 
     #updateTileValues() {
-        this.tiles.forEach(tile => { if (tile.value !== MineTile.MINE) tile.value = this.#getAdjacentMineCount(tile)} );
+        this.tiles.forEach(tile => { if (tile.value !== MineTile.MINE) tile.value = this.#getAdjacentMineCount(tile) });
     }
 
     #getTileCoordinates(tile) {
@@ -68,7 +77,7 @@ export default class MineBoard {
             }
         });
     }
-                    
+
     #revealAll() {
         this.tiles.forEach(tile => tile.reveal());
     }
@@ -95,5 +104,4 @@ export default class MineBoard {
         this.tiles.forEach(tile => tile.reset());
         this.#placeRandomMines(this.#initialMineCount);
     }
-
 }
