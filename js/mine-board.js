@@ -14,7 +14,13 @@ export default class MineBoard {
     get height() { return this.#grid.length };
     get element() { return this.#element };
     get tiles() { return this.#grid.flat() };
-    get minesRemaining() { return this.#grid.flat().filter(tile => tile.value === MineTile.MINE).length };
+    get minesRemaining() { 
+        let mines = this.tiles.filter(tile => tile.value === MineTile.MINE).length;
+        let flags = this.tiles.filter(tile => tile.flagged).length;
+        return mines - flags > 0 ? mines - flags : 0;
+    };
+
+    get revealed() { return this.tiles.filter(tile => !tile.hidden).length };
 
     constructor(width = this.#DEFAULT_WIDTH, height = this.#DEFAULT_HEIGHT, mineCount = this.#DEFAULT_MINES) {
 
@@ -28,11 +34,19 @@ export default class MineBoard {
         this.#placeRandomMines(mineCount);
 
         this.tiles.forEach(tile => {
-            this.#element.appendChild(tile.element)
+            this.#element.appendChild(tile.element);
+            tile.element.addEventListener('flag', () => this.#element.dispatchEvent(new CustomEvent('flag')));
 
             tile.element.addEventListener('click', () => {
                 if (tile.value === MineTile.EMPTY) this.#revealAdjacentTiles(tile)
-                else if (tile.value === MineTile.MINE) this.#revealAll();
+                else if (tile.value === MineTile.MINE) {
+                    this.#revealAll();
+                    this.#element.dispatchEvent(new Event('game-over'));
+                } else if (this.revealed === this.tiles.length - this.#initialMineCount) {
+                    this.tiles.forEach(tile => { if (tile.value === MineTile.MINE) tile.flagged = true });
+                    this.#element.dispatchEvent(new Event('game-won'));
+                }
+
             });
         });
     }

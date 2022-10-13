@@ -36,6 +36,14 @@ export default class MineTile {
   set value(value) { this.#value = value };
   get element() { return this.#element };
   get hidden() { return this.#hidden };
+  get flagged() { return this.#element.value === MineTile.FLAG };
+
+  set flagged(value) {
+    if (value) {
+        this.#element.value = MineTile.FLAG;
+        this.#element.dispatchEvent(new Event('flag'));
+    } else this.#element.removeAttribute('value');
+  }
 
   constructor(value = MineTile.EMPTY) {
     if (!this.#VALID_VALUES.includes(value)) {
@@ -53,17 +61,20 @@ export default class MineTile {
         this.reveal();
       });
 
-      this.#element.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
-        this.flag();
-      });
+      this.#element.addEventListener('contextmenu', event => event.preventDefault());
+      this.#element.addEventListener('mousedown', (e) => { if (e.button === 2) this.flag() }
+
+      );
     }
   }
 
   flag() {
-    if (this.#hidden) {
+    if (this.#hidden && this.#element.value !== MineTile.EXPLOSION) {
       if (this.#element.value === MineTile.FLAG) this.#element.removeAttribute('value');
-      else this.#element.value = MineTile.FLAG;
+      else {
+        this.#element.value = MineTile.FLAG;
+        this.#element.dispatchEvent(new Event('flag'));
+      }
     }
   }
 
