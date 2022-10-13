@@ -73,9 +73,10 @@ export default class MineTile {
       if (this.#element.value === MineTile.FLAG) this.#element.removeAttribute('value');
       else {
         this.#element.value = MineTile.FLAG;
-        this.#element.dispatchEvent(new Event('flag'));
       }
     }
+
+    this.#element.dispatchEvent(new Event('flag'));
   }
 
   reveal() {
