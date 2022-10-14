@@ -55,6 +55,7 @@ resetButton.addEventListener('click', () => {
     timer.stop();
     timer.reset();
     mineCounterElement.textContent = board.minesRemaining;
+    board.element.addEventListener('click', () => timer.start(), { once: true });
 });
 
 function createBoardEventListeners(board) {
