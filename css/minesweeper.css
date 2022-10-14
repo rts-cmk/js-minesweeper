@@ -48,19 +48,27 @@ body {
     background-image: none;
     font-size: 14px;
     background-color: #ccc;
-    border: 3px solid #ccc;
+    border: none;
     box-shadow: 0 0 0 1px darkgray;
     cursor: default;
 }
 
-.mine-tile[value="0"] {
-    color: transparent;
-}
 
 .mine-tile[value="🚩"] {
     font-size: 10px;
 }
 
+.mine-tile[value="💥"] {
+    background-color: red !important;
+}
+
+.mine-tile[value="🚩❌"] {
+    letter-spacing: -20px;
+    padding-right: 16px;
+}
+
+
+.mine-tile[value="0"] { color: transparent; }
 .mine-tile[value="1"] { color: blue; }
 .mine-tile[value="2"] { color: green; }
 .mine-tile[value="3"] { color: red; }

@@ -1,6 +1,7 @@
 export default class MineTile {
 
   static get EXPLOSION() { return '💥' };
+  static get FALSE_FLAG() { return '🚩❌' }
   static get FLAG() { return '🚩' }
   static get MINE() { return '💣' }
   static get EMPTY() { return 0 }
@@ -40,8 +41,8 @@ export default class MineTile {
 
   set flagged(value) {
     if (value) {
-        this.#element.value = MineTile.FLAG;
-        this.#element.dispatchEvent(new Event('flag'));
+      this.#element.value = MineTile.FLAG;
+      this.#element.dispatchEvent(new Event('flag'));
     } else this.#element.removeAttribute('value');
   }
 
@@ -82,7 +83,9 @@ export default class MineTile {
   reveal() {
     if (this.#hidden && this.#element.value !== MineTile.EXPLOSION) {
       this.#hidden = false;
-      this.#element.value = this.#value;
+
+      if (this.#element.value === MineTile.FLAG && this.value !== MineTile.MINE) this.#element.value = MineTile.FALSE_FLAG;
+      else if (this.#element.value !== MineTile.FLAG) this.#element.value = this.#value;
     }
   }
 
