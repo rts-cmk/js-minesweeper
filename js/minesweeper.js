@@ -47,6 +47,8 @@ createBoardEventListeners(board);
     board = new MineBoard(+boardSizeInput.value, +boardSizeInput.value, mineCountInput.value);
     document.body.replaceChild(board.element, oldBoardElement);
 
+    mineCounterElement.textContent = board.minesRemaining;
+
     createBoardEventListeners(board);
 }));
 
